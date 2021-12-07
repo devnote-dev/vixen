@@ -13,6 +13,14 @@ class General(Cog):
             round(self.bot.latency * 1000),
             (msg.created_at.microsecond - ctx.message.created_at.microsecond) / 1000
         ))
+    
+    @command(description='Smart math calculating stuff', aliases=['ma', 'm'])
+    async def math(self, ctx, *, args: str):
+        try:
+            res = eval(args)
+            return await ctx.send('```\n%s\n```' % str(res))
+        except Exception as e:
+            return await ctx.send('```\n%s\n```' % repr(e))
 
 
 def setup(bot):
