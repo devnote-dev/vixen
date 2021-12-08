@@ -1,5 +1,7 @@
 from discord.embeds import Embed
 from discord.ext.commands import Cog, Bot, command
+from math import pi
+from re import match
 import os
 
 
@@ -30,6 +32,13 @@ class General(Cog):
     
     @command(description='Smart math calculating stuff', aliases=['ma', 'm'])
     async def math(self, ctx, *, args: str):
+        if 'pi' in args:
+            args = args.replace('pi', str(pi))
+        
+        m = match(r'[^0-9bex]+', args)
+        if m is not None and len(m.groups()):
+            return await ctx.send('Invalid math arguments')
+        
         try:
             res = eval(args)
             return await ctx.send('```\n%s\n```' % str(res))
