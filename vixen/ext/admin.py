@@ -16,6 +16,15 @@ class Admin(Cog):
         self.bot.unload_extension('vixen.ext.%s' % cog.lower())
         self.bot.load_extension('vixen.ext.%s' % cog.lower())
         return await ctx.reply(f'Reloaded the `{cog}` cog!')
+    
+    @command()
+    @is_owner()
+    async def eval(self, ctx, *, args):
+        try:
+            res = eval(args)
+            return await ctx.send('```py\n%s\n```' % str(res))
+        except Exception as e:
+            return await ctx.send('```py\n%s\n```' % str(e))
 
 
 def setup(bot):
