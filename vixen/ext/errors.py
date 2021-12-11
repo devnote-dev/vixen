@@ -54,6 +54,23 @@ class Errors(Cog):
         if isinstance(err, (errors.CommandNotFound, errors.DisabledCommand)):
             return
         
+        if isinstance(err, errors.MissingRequiredArgument):
+            arg = str(err).split('is')[0][:-1]
+            count = len(ctx.command.name)
+            if len(ctx.command.params) > 3:
+                for p in ctx.command.params:
+                    count += len(p)
+                
+                count -= len(arg)
+            
+            spaces = [' ' for _ in range(count + 2)]
+            bar = ''.join(spaces) + ('^' * len(arg))
+            
+            return await ctx.reply(
+                'Missing Arguments! `▱ᗢ\n```\n%s %s\n%s\n```' %
+                (ctx.command, ctx.command.signature, bar)
+            )
+        
         if isinstance(err, BotMissingPermissions):
             if 'send_messages' in err.missing_permissions:
                 try:
