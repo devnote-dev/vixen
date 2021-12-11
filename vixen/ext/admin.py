@@ -1,3 +1,4 @@
+import discord
 from discord.ext.commands import Cog, Bot, command, is_owner
 
 
@@ -21,7 +22,7 @@ class Admin(Cog):
     @is_owner()
     async def eval(self, ctx, *, args):
         try:
-            res = eval(args)
+            res = eval(args, {'ctx': ctx, 'discord': discord})
             return await ctx.send('```py\n%s\n```' % str(res))
         except Exception as e:
             return await ctx.send('```py\n%s\n```' % str(e))
