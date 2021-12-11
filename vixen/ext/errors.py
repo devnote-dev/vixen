@@ -49,13 +49,10 @@ class Errors(Cog):
             )
         )
     
-    async def on_error(self, err, *args, **kwa):
-        return await self.log_error(err, None)
-    
     @Cog.listener()
     async def on_command_error(self, ctx, err):
         if isinstance(err, (errors.CommandNotFound, errors.DisabledCommand)):
-            pass
+            return
         
         if isinstance(err, BotMissingPermissions):
             if 'send_messages' in err.missing_permissions:
